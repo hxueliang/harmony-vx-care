@@ -1,3 +1,24 @@
+// 测试axios封装
+import { instance } from '@hm/basic'
+import { AxiosResponse } from '@ohos/axios'
+
+@Entry
+@Component
+struct TestPage {
+  aboutToAppear(): void {
+    this.getData()
+  }
+
+  async getData() {
+    const res = await instance<null, AxiosResponse<null, null>, null>({ url: '/employee/user', method: 'get' })
+    AlertDialog.show({ message: JSON.stringify(res) })
+  }
+
+  build() {
+    Text('测试页面')
+  }
+}
+
 // 1. list
 // import { EcList } from '@itheima/wing-care'
 //
@@ -311,20 +332,20 @@
 // }
 
 //5.0 提示和404组件
-import { EcNotFound, EcDeviceTip } from '@itheima/wing-care';
-
-@Entry
-@Component
-struct TestPage {
-  build() {
-    Column({ space: 20 }) {
-      EcNotFound({ tip: '暂无内容~' })
-
-      EcDeviceTip({ type: 'success' })
-
-      EcDeviceTip({ type: 'fail' })
-    }
-    .width('100%')
-    .alignItems(HorizontalAlign.Center)
-  }
-}
+// import { EcNotFound, EcDeviceTip } from '@itheima/wing-care';
+//
+// @Entry
+// @Component
+// struct TestPage {
+//   build() {
+//     Column({ space: 20 }) {
+//       EcNotFound({ tip: '暂无内容~' })
+//
+//       EcDeviceTip({ type: 'success' })
+//
+//       EcDeviceTip({ type: 'fail' })
+//     }
+//     .width('100%')
+//     .alignItems(HorizontalAlign.Center)
+//   }
+// }
