@@ -1,6 +1,8 @@
 // 测试axios封装
-import { instance } from '@hm/basic'
-import { AxiosResponse } from '@ohos/axios'
+import { Request } from '@hm/basic'
+import { Log } from '@abner/log'
+
+import { UserInfo } from '../../model'
 
 @Entry
 @Component
@@ -10,8 +12,12 @@ struct TestPage {
   }
 
   async getData() {
-    const res = await instance<null, AxiosResponse<null, null>, null>({ url: '/employee/user', method: 'get' })
-    AlertDialog.show({ message: JSON.stringify(res) })
+    const data = await Request.get<UserInfo>('/employee/user', {
+      headers: {
+        Authorization: 'eyJhbGciOiJIUzI1NiJ9.eyJjdXJyZW50VXNlciI6IntcInVzZXJuYW1lXCI6XCIzNTQyMzQ4NEBxcS5jb21cIixcInBhc3N3b3JkXCI6XCJcIixcIm5pY2tOYW1lXCI6XCLmiqTnkIblkZgxXCIsXCJlbWFpbFwiOlwiMzU0MjM0ODRAcXEuY29tXCIsXCJyZWFsTmFtZVwiOlwi5oqk55CG5ZGYMVwiLFwibW9iaWxlXCI6XCIxODIxMTAyMTg5NlwiLFwic2V4XCI6XCIwXCIsXCJkZXB0Tm9cIjpcIjEwMDAwMTAwNTAwMDAwMFwiLFwicG9zdE5vXCI6XCIxMDAwMDEwMDUwMDMwMDBcIixcImRhdGFTdGF0ZVwiOlwiMFwiLFwiYXZhdGFyXCI6XCJodHRwczovL3lqeS1vc3MtdmlkZW9zLm9zcy1hY2NlbGVyYXRlLmFsaXl1bmNzLmNvbS9ncnp4aHouanBnXCIsXCJpZFwiOjE2NzE0MDMyNTY1MTkwNzgyNzUsXCJjcmVhdGVUaW1lXCI6MTcxNTU2ODM5MDAwMCxcInVwZGF0ZVRpbWVcIjoxNzE1NTY4MzkwMDAwLFwiY3JlYXRlQnlcIjoxNjcxNDAzMjU2NTE5MDc4MTM4fSIsImV4cCI6MTQ2NzU2NTk0Nzd9.8PrMKBNrVVCfcI4DgICxp6oBQGqy46m3oglFQCiKtzw'
+      }
+    })
+    Log.info(data.id)
   }
 
   build() {
