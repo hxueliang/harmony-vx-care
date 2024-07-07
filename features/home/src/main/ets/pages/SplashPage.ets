@@ -7,7 +7,7 @@ struct SplashPage {
   @StorageProp('bottomHeight')
   bottomHeight: number = 0
   @State
-  count: number = 6
+  count: number = 2
   timer: number = -1
 
   countdown() {
