@@ -4,24 +4,39 @@ import { Log } from '@abner/log'
 
 import { UserInfo } from '../../model'
 
+class MyType {
+  a: number = 0
+  b: string = ''
+}
+
+const arr = [1, 2, 3]
+
 @Entry
 @Component
 struct TestPage {
+  @State
+  message: string = 'a'
+
   aboutToAppear(): void {
+    this.message = '10'
     this.getData()
   }
 
   async getData() {
-    const data = await Request.get<UserInfo>('/employee/user', {
-      headers: {
-        Authorization: 'eyJhbGciOiJIUzI1NiJ9.eyJjdXJyZW50VXNlciI6IntcInVzZXJuYW1lXCI6XCIzNTQyMzQ4NEBxcS5jb21cIixcInBhc3N3b3JkXCI6XCJcIixcIm5pY2tOYW1lXCI6XCLmiqTnkIblkZgxXCIsXCJlbWFpbFwiOlwiMzU0MjM0ODRAcXEuY29tXCIsXCJyZWFsTmFtZVwiOlwi5oqk55CG5ZGYMVwiLFwibW9iaWxlXCI6XCIxODIxMTAyMTg5NlwiLFwic2V4XCI6XCIwXCIsXCJkZXB0Tm9cIjpcIjEwMDAwMTAwNTAwMDAwMFwiLFwicG9zdE5vXCI6XCIxMDAwMDEwMDUwMDMwMDBcIixcImRhdGFTdGF0ZVwiOlwiMFwiLFwiYXZhdGFyXCI6XCJodHRwczovL3lqeS1vc3MtdmlkZW9zLm9zcy1hY2NlbGVyYXRlLmFsaXl1bmNzLmNvbS9ncnp4aHouanBnXCIsXCJpZFwiOjE2NzE0MDMyNTY1MTkwNzgyNzUsXCJjcmVhdGVUaW1lXCI6MTcxNTU2ODM5MDAwMCxcInVwZGF0ZVRpbWVcIjoxNzE1NTY4MzkwMDAwLFwiY3JlYXRlQnlcIjoxNjcxNDAzMjU2NTE5MDc4MTM4fSIsImV4cCI6MTQ2NzU2NTk0Nzd9.8PrMKBNrVVCfcI4DgICxp6oBQGqy46m3oglFQCiKtzw'
-      }
-    })
-    Log.info(data.id)
+
   }
 
   build() {
-    Text('测试页面')
+    // Text(`测试页面-${this.message}`)
+    Column() {
+      List() {
+        ForEach(arr, (item: number, index: number | undefined) => {
+          ListItem() {
+            Text(arr[index??0].toString())
+          }
+        })
+      }
+    }
   }
 }
 
