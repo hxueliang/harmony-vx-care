@@ -1,5 +1,5 @@
 import router from '@ohos.router'
-import { ResManager, UserData, getUserApi } from '@hm/basic/Index'
+import { ResManager, UserData, getUserApi, RouterConfig } from '@hm/basic/Index'
 
 @Component
 export struct Mine {
@@ -60,6 +60,11 @@ export struct Mine {
               offsetY: 2,
               radius: 21,
               color: '#0aa9941f'
+            })
+            .onClick(() => {
+              router.pushUrl({
+                url: RouterConfig.USER_SET_URL
+              })
             })
           Text(this.user?.nickName)
             .fontSize(ResManager.EC_PAGE_TITLE_FS)
