@@ -20,13 +20,13 @@ struct HealthRecordPage {
           .onClick(() => router.back())
         Text('血糖历史')
           .fontColor('#fff')
-          .fontSize($r('app.float.ec_page_title_font_size'))
+          .fontSize(ResManager.EC_PAGE_TITLE_FS)
           .fontWeight(500)
       }
 
       // 右侧
       Text('趋势图')
-        .fontSize($r('app.float.ec_normal_font_size'))
+        .fontSize(ResManager.EC_NORMAL_FS)
         .fontColor('#fff')
         .margin({ right: 18 })
         .onClick(() => {
@@ -48,8 +48,8 @@ struct HealthRecordPage {
             Row() {
               Text('2024-03')
                 .fontSize(13)
-                .fontColor($r('app.color.ec_mid_19'))
-              Image($r('app.media.ic_down'))
+                .fontColor(ResManager.EC_MID_19)
+              Image(ResManager.IC_DOWN)
                 .width(12)
                 .height(5)
                 .margin({ left: 2 })
@@ -100,7 +100,6 @@ struct HealthRecordPage {
         .padding({ left: 10, right: 10 })
 
         // 血糖表格
-
       }
       .width('100%')
       .height('100%')
