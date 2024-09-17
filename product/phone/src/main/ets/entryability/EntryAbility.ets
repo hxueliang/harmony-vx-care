@@ -31,7 +31,7 @@ export default class EntryAbility extends UIAbility {
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
 
     // windowStage.loadContent(RouterConfig.SPLASH_URL, (err, data) => {
-    windowStage.loadContent('pages/test/TestPage', (err, data) => {
+    windowStage.loadContent(RouterConfig.SPLASH_URL, (err, data) => {
       if (err.code) {
         hilog.error(0x0000, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err) ?? '');
         return;
