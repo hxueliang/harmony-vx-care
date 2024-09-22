@@ -1,7 +1,8 @@
-import { ResManager, UserStore } from '@hm/basic/Index';
+import { loginApi, ResManager, UserStore } from '@hm/basic/Index';
 import { authentication } from '@kit.AccountKit';
 import { util } from '@kit.ArkTS';
 import { Log } from '@abner/log';
+import { router } from '@kit.ArkUI';
 
 @Entry
 @Component
@@ -20,7 +21,7 @@ struct LoginPage {
     // 执行请求
     try {
       let controller = new authentication.AuthenticationController(getContext(this));
-      controller.executeRequest(authRequest, (err, data) => {
+      controller.executeRequest(authRequest, async (err, data) => {
         if (err) {
           Log.error(`auth fail,error: ${JSON.stringify(err)}s`);
           return;
@@ -33,9 +34,21 @@ struct LoginPage {
         }
         Log.debug(`auth success: ${JSON.stringify(authorizationWithHuaweiIDResponse)}s`);
         let authorizationWithHuaweiIDCredential = authorizationWithHuaweiIDResponse.data!;
-        let code = authorizationWithHuaweiIDCredential.authorizationCode;
+        let code = authorizationWithHuaweiIDCredential.authorizationCode || '';
         // 开发者处理code
         Log.warn(`code: ${code}`)
+        /**
+         * 获取 clientId 和 clientSecret
+         * https://developer.huawei.com/consumer/cn/service/josp/agc/index.html#/myProject/388421841222502313/97458334310914890?appId=5765880207855491419
+         */
+        const token = await loginApi({
+          clientId: '112105819',
+          clientSecret: '69fff04cec2487d2283729c57b7fdc2c884fcbd358c756d1e0208abb2f9eb8b7',
+          code,
+        })
+        Log.info(token)
+        await UserStore.setUser({ token })
+        router.replaceUrl({ url: 'pages/Index' })
       });
     } catch (error) {
       Log.error(`auth failed: ${JSON.stringify(error)}s`);
@@ -71,13 +84,14 @@ struct LoginPage {
               .fontColor('#fff')
               .fontWeight(500)
               .fontSize(ResManager.EC_MODULE_TITLE_FS)
-          }.onClick(() => {
-            this.login()
-            return
+          }.onClick(async () => {
+            // this.login()
+            // return
             // 模似登录
-            UserStore.setUser({
+            await UserStore.setUser({
               token: 'eyJhbGciOiJIUzI1NiJ9.eyJjdXJyZW50VXNlciI6IntcInVzZXJuYW1lXCI6XCIzNTQyMzQ4NEBxcS5jb21cIixcInBhc3N3b3JkXCI6XCJcIixcIm5pY2tOYW1lXCI6XCLmiqTnkIblkZgxXCIsXCJlbWFpbFwiOlwiMzU0MjM0ODRAcXEuY29tXCIsXCJyZWFsTmFtZVwiOlwi5oqk55CG5ZGYMVwiLFwibW9iaWxlXCI6XCIxODIxMTAyMTg5NlwiLFwic2V4XCI6XCIwXCIsXCJkZXB0Tm9cIjpcIjEwMDAwMTAwNTAwMDAwMFwiLFwicG9zdE5vXCI6XCIxMDAwMDEwMDUwMDMwMDBcIixcImRhdGFTdGF0ZVwiOlwiMFwiLFwiYXZhdGFyXCI6XCJodHRwczovL3lqeS1vc3MtdmlkZW9zLm9zcy1hY2NlbGVyYXRlLmFsaXl1bmNzLmNvbS9ncnp4aHouanBnXCIsXCJpZFwiOjE2NzE0MDMyNTY1MTkwNzgyNzUsXCJjcmVhdGVUaW1lXCI6MTcxNTU2ODM5MDAwMCxcInVwZGF0ZVRpbWVcIjoxNzE1NTY4MzkwMDAwLFwiY3JlYXRlQnlcIjoxNjcxNDAzMjU2NTE5MDc4MTM4fSIsImV4cCI6MTQ2NzU2NTk0Nzd9.8PrMKBNrVVCfcI4DgICxp6oBQGqy46m3oglFQCiKtzw'
             })
+            router.replaceUrl({ url: 'pages/Index' })
           })
         }
         .margin({ top: 150 })
