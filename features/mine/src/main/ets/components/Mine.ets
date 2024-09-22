@@ -1,5 +1,5 @@
 import router from '@ohos.router'
-import { ResManager, UserData, getUserApi, RouterConfig } from '@hm/basic/Index'
+import { ResManager, IUserData, getUserApi, RouterConfig } from '@hm/basic/Index'
 
 @Component
 export struct Mine {
@@ -7,7 +7,7 @@ export struct Mine {
   topHeight: number = 0
   // 获取用户信息
   @State
-  user: UserData | null = null
+  user: IUserData | null = null
 
   aboutToAppear(): void {
     this.getUser()
