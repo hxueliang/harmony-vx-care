@@ -7,6 +7,9 @@ import axios, {
   RawAxiosRequestHeaders
 } from '@ohos/axios'
 import { Log } from '@abner/log'
+import { router } from '@kit.ArkUI';
+
+import { RouterConfig } from '../constants';
 import { UserStore } from '.';
 
 interface RequestConfig<P> {
@@ -40,6 +43,10 @@ instance.interceptors.response.use((response: AxiosResponse) => {
   return response.data?.data;
 }, (error: AxiosError) => {
   Log.info(error)
+  if (error.response?.status === 401) {
+    UserStore.delUser()
+    router.replaceUrl({ url: RouterConfig.LOGIN_URL })
+  }
   return Promise.reject(error);
 });
 
