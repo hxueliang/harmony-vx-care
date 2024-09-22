@@ -1,6 +1,19 @@
 {
   "app": {
     "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "storePassword": "00000018802551162583C675215CAED49194FE440EA5DA046D02258EF891691AE4F345E0871AF265",
+          "certpath": "./certificate/harmony-vx-care.cer",
+          "keyAlias": "care2",
+          "keyPassword": "00000018115A2BCC6EA7A939088902E3D42F3510E59ADA4B882EC963E0FC1FEE6DCF56670EBE2BD1",
+          "profile": "./certificate/harmony-vx-careDebug.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "./certificate/harmony-vx-care.p12"
+        }
+      }
     ],
     "products": [
       {

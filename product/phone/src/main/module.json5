@@ -13,10 +13,16 @@
       {
         "name": "ohos.permission.INTERNET"
       },
-      ],
+    ],
     "deliveryWithInstall": true,
     "installationFree": false,
     "pages": "$profile:main_pages",
+    "metadata": [
+      {
+        "name": "client_id",
+        "value": "112105819"
+      }
+    ],
     "abilities": [
       {
         "name": "EntryAbility",
