@@ -3,6 +3,26 @@ export interface IUser {
 }
 
 /**
+ * 登录请求参数
+ */
+export interface ILoginParams {
+  /**
+   * 华为应用id
+   */
+  clientId: null | string;
+
+  /**
+   * 华为应用秘钥
+   */
+  clientSecret: null | string;
+
+  /**
+   * 华为账号授权码
+   */
+  code: string;
+}
+
+/**
  * 我的：登录用户
  */
 export interface IUserData {
