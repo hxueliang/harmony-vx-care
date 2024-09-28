@@ -1,5 +1,8 @@
-import { ResManager } from '@hm/basic/Index'
+import { IItem, ResManager } from '@hm/basic/Index'
 import router from '@ohos.router'
+import { getMessageCountApi } from '../apis'
+import { Log } from '@abner/log'
+import { IHomeMessageCount } from '../model'
 
 // 模块排列位置
 enum Pos {
@@ -9,6 +12,19 @@ enum Pos {
 
 @Component
 export struct Home {
+  @State msgCount: IHomeMessageCount = { elderAlertMsgCount: 0, nursingTaskMsgCount: 0 } as IHomeMessageCount
+
+  aboutToAppear(): void {
+    this.getMessageCount()
+  }
+
+  async getMessageCount() {
+    const res = await getMessageCountApi()
+    res.elderAlertMsgCount = res.elderAlertMsgCount || 2
+    res.nursingTaskMsgCount = res.nursingTaskMsgCount || 1
+    this.msgCount = res
+  }
+
   // 消息
   @Builder
   /**
@@ -17,23 +33,25 @@ export struct Home {
    * @param icon
    * @param url
    */
-  msgItem(title: string, icon: Resource | string, count: number, i: number) {
+  msgItem($$: IItem<number>) {
     Column() {
       Badge({
-        count, position: BadgePosition.RightTop, style: {
+        count: $$.value as number,
+        position: BadgePosition.RightTop,
+        style: {
           badgeColor: '#FF6363',
           borderColor: '#fff',
           borderWidth: 2,
           badgeSize: 20
         }
       }) {
-        Image(icon)
+        Image($$.icon)
           .width(40)
           .aspectRatio(1)
           .margin({ bottom: 10 })
       }
 
-      Text(title)
+      Text($$.label)
         .fontSize(ResManager.EC_SMALL_FS)
         .fontColor(ResManager.EC_MID_19)
     }
@@ -45,7 +63,7 @@ export struct Home {
       router.pushUrl({
         url: '@bundle:com.heima.elderly.pro/message/ets/pages/MsgPage',
         params: {
-          type: i
+          type: $$.index
         }
       })
     })
@@ -71,7 +89,12 @@ export struct Home {
           .fontColor(ResManager.EC_MID_19)
           .fontSize(ResManager.EC_NORMAL_FS)
       }
-      .padding({ top: 20, bottom: 23, left: 13, right: 13 })
+      .padding({
+        top: 20,
+        bottom: 23,
+        left: 13,
+        right: 13
+      })
       // .borderRadius(8)
       // .layoutWeight(1)
       // .backgroundColor(ResManager.EC_MID_WHITE)
@@ -124,8 +147,18 @@ export struct Home {
           //  1.2 消息提醒
           Column() {
             Row({ space: 10 }) {
-              this.msgItem('老人报警消息', $r("app.media.ic_home_jkbj"), 6, 1)
-              this.msgItem('任务提醒消息', $r("app.media.ic_home_rwtx"), 2, 0)
+              this.msgItem({
+                value: this.msgCount.elderAlertMsgCount,
+                label: '报警消息',
+                icon: $r("app.media.ic_home_jkbj"),
+                index: 1
+              })
+              this.msgItem({
+                value: this.msgCount.nursingTaskMsgCount,
+                label: '任务消息',
+                icon: $r("app.media.ic_home_rwtx"),
+                index: 0
+              })
             }
           }
           .margin({
