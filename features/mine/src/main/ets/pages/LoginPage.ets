@@ -65,7 +65,7 @@ struct LoginPage {
             .height(76)
             .margin({ bottom: 20 })
           Text() {
-            Span('翼康养老')
+            Span('越秀康养')
               .fontColor('#000')
               .fontSize(24)
               .fontWeight(700)

@@ -46,7 +46,7 @@ struct SplashPage {
             .width(32)
             .aspectRatio(1)
             .margin({ right: 15 })
-          Span('翼康养老')
+          Span('越秀康养')
             .fontColor('#000')
             .fontSize(24)
             .fontWeight(700)
