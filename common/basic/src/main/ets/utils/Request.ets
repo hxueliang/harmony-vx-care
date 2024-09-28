@@ -51,31 +51,31 @@ instance.interceptors.response.use((response: AxiosResponse) => {
 });
 
 export class Request {
-  static get<D = null, P = null>(url: string, config: RequestConfig<P>): Promise<D> {
+  static get<D = null, P = null>(url: string, config: RequestConfig<P> = {}): Promise<D> {
     config.url = url
     config.method = 'GET'
     return instance<null, D>(config)
   }
 
-  static post<D = null, P = null>(url: string, config: RequestConfig<P>): Promise<D> {
+  static post<D = null, P = null>(url: string, config: RequestConfig<P> = {}): Promise<D> {
     config.url = url
     config.method = 'POST'
     return instance<null, D>(config)
   }
 
-  static delete<D = null, P = null>(url: string, config: RequestConfig<P>): Promise<D> {
+  static delete<D = null, P = null>(url: string, config: RequestConfig<P> = {}): Promise<D> {
     config.url = url
     config.method = 'DELETE'
     return instance<null, D>(config)
   }
 
-  static put<D = null, P = null>(url: string, config: RequestConfig<P>): Promise<D> {
+  static put<D = null, P = null>(url: string, config: RequestConfig<P> = {}): Promise<D> {
     config.url = url
     config.method = 'PUT'
     return instance<null, D>(config)
   }
 
-  static other<D = null, P = null>(url: string, config: RequestConfig<P>): Promise<D> {
+  static other<D = null, P = null>(url: string, config: RequestConfig<P> = {}): Promise<D> {
     config.url = url
     config.method = config.method || 'GET'
     return instance<null, D>(config)
