@@ -31,6 +31,8 @@ const instance = axios.create({
 instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   // 测试Authorization
   config.headers.Authorization = UserStore.getUser().token
+  Log.info(`【${config.method!}】${config.url}
+    ${JSON.stringify(config.params || config.data)}`)
 
   return config;
 }, (error: AxiosError) => {
@@ -40,6 +42,7 @@ instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 
 // 响应拦截器
 instance.interceptors.response.use((response: AxiosResponse) => {
+  Log.warn(response.data?.data)
   return response.data?.data;
 }, (error: AxiosError) => {
   Log.info(error)
