@@ -29,7 +29,9 @@ export struct MsgListComp {
   isRefreshing: boolean = false
   // 触底加载数据
   load = () => {
-    if (this.loading || this.finished) return
+    if (this.loading || this.finished) {
+      return
+    }
     this.loading = true
     // 请求数据
     setTimeout(() => {
@@ -49,7 +51,7 @@ export struct MsgListComp {
   // 刷新列表
   refresh = () => {
     setTimeout(() => {
-      //  重置列表和状态
+      // 重置列表和状态
       this.loading = false
       this.finished = false
       // 重置请求参数
