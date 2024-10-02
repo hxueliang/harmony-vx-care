@@ -1,10 +1,11 @@
 import router from '@ohos.router'
-import { EcDialogUpload, ResManager } from '@hm/basic'
+import { EcDialogUpload, getUserApi, IUserData, ResManager, RouterConfig } from '@hm/basic'
 
 
 @Entry
 @Component
 struct MinePage {
+  @State user: IUserData | null = null // 获取用户信息
   @StorageProp('topHeight')
   topHeight: number = 0
   // 上传弹层控制
@@ -14,27 +15,39 @@ struct MinePage {
     alignment: DialogAlignment.Bottom
   })
 
+  aboutToAppear(): void {
+    this.getUser()
+  }
+
+  async getUser() {
+    this.user = await getUserApi()
+  }
+
   @Builder
-  cellItem(title: string, rightContent: string = '') {
+  cellItem(title: string, flag: 0 | 1) {
     Row() {
       Text(title)
         .fontColor(ResManager.EC_MID_19)
         .fontSize(ResManager.EC_MODULE_TITLE_FS)
         .fontWeight(500)
       Row({ space: 10 }) {
-        if (rightContent) {
+        if (flag === 1) {
           // 昵称修改
-          Text(rightContent)
+          Text(this.user?.nickName)
             .fontColor(ResManager.EC_MID_59)
             .fontSize(ResManager.EC_NORMAL_FS)
             .onClick(() => {
               router.pushUrl({
-                url: 'pages/mine/NickNamePage'
+                url: RouterConfig.USER_NAME_URL,
+                params: {
+                  name: this.user?.nickName
+                }
               })
             })
         } else {
           // 上传
-          Image('https://img2.baidu.com/it/u=130573784,2479509663&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=534')
+          Image(this.user?.avatar ||
+            'https://img2.baidu.com/it/u=130573784,2479509663&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=534')
             .width(34)
             .aspectRatio(1)
             .borderRadius(17)
@@ -58,11 +71,11 @@ struct MinePage {
         Column() {
           List() {
             ListItem() {
-              this.cellItem('头像')
+              this.cellItem('头像', 0)
             }
 
             ListItem() {
-              this.cellItem('昵称', '思密达')
+              this.cellItem('昵称', 1)
             }
           }
           .width('100%')
