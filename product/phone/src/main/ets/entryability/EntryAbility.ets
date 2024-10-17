@@ -5,6 +5,8 @@ import { Log } from '@abner/log'
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn'
 import { RouterConfig } from '@hm/basic/Index';
+import { pushService } from '@kit.PushKit';
+import { BusinessError } from '@kit.BasicServicesKit';
 
 Log.init({
   tag: "x_log",
@@ -20,6 +22,7 @@ dayjs.locale('zh-cn');
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
+    getPushToken()
   }
 
   onDestroy(): void {
@@ -53,5 +56,18 @@ export default class EntryAbility extends UIAbility {
   onBackground(): void {
     // Ability has back to background
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onBackground');
+  }
+}
+
+/**
+ * 获取Push Token
+ */
+async function getPushToken() {
+  try {
+    const pushToken: string = await pushService.getToken();
+    hilog.info(0x0000, 'testTag', `Succeeded in getting push token: ${pushToken}`);
+  } catch (err) {
+    let e: BusinessError = err as BusinessError;
+    hilog.error(0x0000, 'testTag', 'Failed to get push token: %{public}d %{public}s', e.code, e.message);
   }
 }
