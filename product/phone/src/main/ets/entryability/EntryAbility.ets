@@ -66,6 +66,7 @@ async function getPushToken() {
   try {
     const pushToken: string = await pushService.getToken();
     hilog.info(0x0000, 'testTag', `Succeeded in getting push token: ${pushToken}`);
+    // Todo: 上报Push Token并上报到您的服务端
   } catch (err) {
     let e: BusinessError = err as BusinessError;
     hilog.error(0x0000, 'testTag', 'Failed to get push token: %{public}d %{public}s', e.code, e.message);
